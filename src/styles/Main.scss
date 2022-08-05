@@ -1,0 +1,32 @@
+.brand {
+  &__logo {
+    height: 50px;
+    width: 50px;
+  }
+
+  &__title {
+    color: #ffffff;
+    font-size: 5rem;
+  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn {
+  &:hover,
+  &:active {
+    cursor: pointer;
+  }
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 2rem;
+  font-family: 'Source Sans Pro';
+  line-height: 2rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
