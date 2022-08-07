@@ -38,6 +38,8 @@
 }
 
 .CodeMirror {
-  min-height: calc(100vh-20px);
-  font-size: 1.5rem;
+  min-height: calc(100vh);
+  font-size: 1.75rem;
+  line-height: 2.25rem;
+  padding: 10px;
 }
