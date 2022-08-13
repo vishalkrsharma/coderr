@@ -1,39 +1,34 @@
 import React, { useEffect, useRef } from 'react';
 import Codemirror from 'codemirror';
-import 'codemirror/mode/javascript/javascript';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/monokai.css';
+import 'codemirror/mode/javascript/javascript';
 import 'codemirror/addon/edit/closetag';
 import 'codemirror/addon/edit/closebrackets';
-
 import ACTIONS from '../Actions';
-import { Socket } from 'socket.io-client';
 
-function Editor({ socketRef, roomId }) {
+const Editor = ({ socketRef, roomId, onCodeChange }) => {
   const editorRef = useRef(null);
   useEffect(() => {
     async function init() {
       editorRef.current = Codemirror.fromTextArea(document.getElementById('realtimeEditor'), {
         mode: { name: 'javascript', json: true },
         theme: 'monokai',
-        autoClosesTags: true,
+        autoCloseTags: true,
         autoCloseBrackets: true,
         lineNumbers: true,
       });
 
       editorRef.current.on('change', (instance, changes) => {
-        console.log('changes', changes);
-        const { orgin } = changes;
+        const { origin } = changes;
         const code = instance.getValue();
-
+        onCodeChange(code);
         if (origin !== 'setValue') {
           socketRef.current.emit(ACTIONS.CODE_CHANGE, {
             roomId,
             code,
           });
         }
-
-        console.log(code);
       });
     }
     init();
@@ -47,9 +42,13 @@ function Editor({ socketRef, roomId }) {
         }
       });
     }
+
+    return () => {
+      socketRef.current.off(ACTIONS.CODE_CHANGE);
+    };
   }, [socketRef.current]);
 
   return <textarea id='realtimeEditor'></textarea>;
-}
+};
 
 export default Editor;

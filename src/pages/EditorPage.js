@@ -65,7 +65,7 @@ function EditorPage() {
   async function copyRoomId() {
     try {
       await navigator.clipboard.writeText(roomId);
-      toast.success('Room ID copied');
+      toast.success('Room ID has been copied to your clipboard');
     } catch (err) {
       toast.error('Could not copy the Room ID');
       console.error(err);
@@ -97,11 +97,19 @@ function EditorPage() {
           <div className='btn white' onClick={copyRoomId}>
             Copy Room ID
           </div>
-          <div className='btn red'>Leave Room</div>
+          <div className='btn red' onclick={leaveRoom}>
+            Leave Room
+          </div>
         </div>
       </div>
       <div className='textarea'>
-        <Editor socketRef={socketRef} roomId={roomId} />
+        <Editor
+          socketRef={socketRef}
+          roomId={roomId}
+          onCodeChange={(code) => {
+            codeRef.current = code;
+          }}
+        />
       </div>
     </div>
   );
