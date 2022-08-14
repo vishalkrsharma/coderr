@@ -6,9 +6,7 @@ import Editor from '../components/Editor';
 import { initSocket } from '../socket';
 import { useLocation, useNavigate, Navigate, useParams } from 'react-router-dom';
 
-import '../styles/EditorPage.scss';
-
-function EditorPage() {
+const EditorPage = () => {
   const socketRef = useRef(null);
   const codeRef = useRef(null);
   const location = useLocation();
@@ -81,28 +79,27 @@ function EditorPage() {
   }
 
   return (
-    <div className='wrap'>
-      <div className='side'>
-        <div className='side__top'>
-          <img className='logo' src='../logo.png' alt='coderr-logo' />
-          <div className='line'></div>
-          <div className='connect'>Connected</div>
-          <div className='clientDiv'>
-            {clients.map((client) => {
-              return <Client key={client.socketId} username={client.username} />;
-            })}
+    <div className='mainWrap'>
+      <div className='aside'>
+        <div className='asideInner'>
+          <div className='logo'>
+            <img className='logoImage' src='/logo.png' alt='coderr-logo' />
+          </div>
+          <h3>Connected</h3>
+          <div className='clientsList'>
+            {clients.map((client) => (
+              <Client key={client.socketId} username={client.username} />
+            ))}
           </div>
         </div>
-        <div className='side__bottom'>
-          <div className='btn white' onClick={copyRoomId}>
-            Copy Room ID
-          </div>
-          <div className='btn red' onclick={leaveRoom}>
-            Leave Room
-          </div>
-        </div>
+        <button className='btn copyBtn' onClick={copyRoomId}>
+          Copy ROOM ID
+        </button>
+        <button className='btn leaveBtn' onClick={leaveRoom}>
+          Leave
+        </button>
       </div>
-      <div className='textarea'>
+      <div className='editorWrap'>
         <Editor
           socketRef={socketRef}
           roomId={roomId}
@@ -113,6 +110,6 @@ function EditorPage() {
       </div>
     </div>
   );
-}
+};
 
 export default EditorPage;
